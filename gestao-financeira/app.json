@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Gestao Financeira",
+    "slug": "gestao-financeira",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "gestao-financeira",
+    "android": {
+      "package": "com.polly.gestaofinanceira"
+    },
+    "splash": {
+      "image": "./assets/images/splash.png"
+    },
+    "plugins": [
+      "expo-router",
+      "@react-native-community/datetimepicker",
+      "expo-font"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "16bfd3af-e7e4-4c64-a3ee-6056c13b3568"
+      }
+    },
+    "owner": "p.ribb"
+  }
+}
