@@ -39,11 +39,11 @@ export default function Login() {
         </View>
 
         <View>
-          <Text style={globalStyles.inputLabel}>Nome</Text>
+          <Text style={globalStyles.inputLabel}>Usuario</Text>
           <TextInput
             autoCapitalize="words"
             onChangeText={(name) => setForm((current) => ({ ...current, name }))}
-            placeholder="Seu nome"
+            placeholder="Seu usuario"
             style={globalStyles.input}
             value={form.name}
           />

@@ -14,7 +14,8 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: colors.inactive,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: 60,
+          height: 76,
+          paddingBottom: 18,
           paddingTop: 5,
           backgroundColor: colors.background
         },
@@ -46,11 +47,12 @@ export default function TabsLayout() {
         options={{
           title: "Adicionar Transação",
           tabBarLabel: "",
+          tabBarIconStyle: styles.addIconWrapper,
           tabBarIcon: () => (
             <View style={styles.addButton}>
               <MaterialIcons
                 name="add"
-                size={40}
+                size={26}
                 color={colors.primaryContrast}
               />
             </View>
@@ -71,12 +73,15 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
+  addIconWrapper: {
+    marginTop: 10
+  },
   addButton: {
     alignItems: "center",
     justifyContent: "center",
-    height: 64,
-    width: 64,
-    borderRadius: 32,
+    height: 42,
+    width: 42,
+    borderRadius: 21,
     backgroundColor: colors.primary
   }
 });
