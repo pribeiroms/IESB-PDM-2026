@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   Alert,
@@ -20,6 +21,7 @@ export default function Login() {
   const handleLogin = () => {
     try {
       login(form);
+      router.replace("/");
     } catch (error) {
       Alert.alert("Acesso negado", error.message);
     }

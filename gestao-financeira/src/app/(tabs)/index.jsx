@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useContext, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -26,6 +27,11 @@ export default function Transactions() {
     () => filterByPeriod(transactions, selectedPeriod),
     [transactions, selectedPeriod]
   );
+
+  const handleLogout = () => {
+    logout();
+    router.replace("/login");
+  };
 
   if (loading) {
     return (
@@ -68,7 +74,7 @@ export default function Transactions() {
                 <Text style={styles.welcome}>Ola, {user?.name}</Text>
                 <Text style={globalStyles.secondaryText}>Bem-vindo de volta</Text>
               </View>
-              <Text style={styles.logout} onPress={logout}>
+              <Text style={styles.logout} onPress={handleLogout}>
                 Sair
               </Text>
             </View>
