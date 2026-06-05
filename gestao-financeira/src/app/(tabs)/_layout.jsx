@@ -1,7 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, Tabs } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { colors } from "../../constants/colors";
 import { useAuth } from "../../contexts/AuthState";
 
@@ -38,7 +38,13 @@ export default function TabsLayout() {
           backgroundColor: colors.background
         },
         tabBarButton: (props) => (
-          <TouchableOpacity {...props} activeOpacity={0.8} />
+          <Pressable
+            {...props}
+            style={({ pressed }) => [
+              props.style,
+              { opacity: pressed ? 0.75 : 1 }
+            ]}
+          />
         )
       }}
     >

@@ -109,7 +109,9 @@ export default function Transactions() {
           <View style={styles.header}>
             <View style={styles.welcomeRow}>
               <View>
-                <Text style={styles.welcome}>Olá, {user?.name}</Text>
+                <Text style={styles.welcome}>
+                  Olá, {user?.username ?? user?.name}
+                </Text>
                 <Text style={globalStyles.secondaryText}>Bem-vindo de volta</Text>
               </View>
               <Text style={styles.logout} onPress={handleLogout}>

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "expo-router";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -23,6 +24,7 @@ const initialForm = {
 };
 
 export default function AddTransactions() {
+  const router = useRouter();
   const [form, setForm] = useState(initialForm);
   const [saving, setSaving] = useState(false);
   const valueInputRef = useRef(null);
@@ -58,7 +60,17 @@ export default function AddTransactions() {
       });
 
       setForm({ ...initialForm, categoryId: defaultCategoryId });
-      Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
+
+      const onOkPress = () => router.replace("/");
+
+      if (Platform.OS === "web") {
+        window.alert("Transação adicionada com sucesso!");
+        onOkPress();
+      } else {
+        Alert.alert("Sucesso!", "Transação adicionada com sucesso!", [
+          { text: "Ok", onPress: onOkPress }
+        ]);
+      }
     } catch (error) {
       Alert.alert("Erro", error.message);
     } finally {
