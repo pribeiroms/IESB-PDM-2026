@@ -1,0 +1,223 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Gestão Financeira API",
+    "version": "1.0.0",
+    "description": "API REST para categorias e transacoes do app de gestao financeira."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Health-check",
+        "responses": {
+          "200": {
+            "description": "API online"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "summary": "Listar categorias",
+        "responses": {
+          "200": {
+            "description": "Lista de categorias"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar categoria",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryInput"
+              },
+              "example": {
+                "name": "categoria_teste",
+                "displayName": "Categoria Teste",
+                "icon": "label",
+                "background": "#B6D7FF",
+                "isIncome": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Categoria criada"
+          }
+        }
+      }
+    },
+    "/categories/{id}": {
+      "put": {
+        "summary": "Atualizar categoria",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "displayName": "Saude e Bem-estar"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Categoria atualizada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir categoria",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Categoria excluida"
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "summary": "Listar transações",
+        "responses": {
+          "200": {
+            "description": "Lista de transacoes"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar transação",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransactionInput"
+              },
+              "example": {
+                "description": "Transação de teste",
+                "value": 3500.5,
+                "date": "2026-04-29",
+                "categoryId": "ID_DA_CATEGORIA_CRIADA"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Transacao criada"
+          }
+        }
+      }
+    },
+    "/transactions/{id}": {
+      "put": {
+        "summary": "Atualizar transação",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "description": "Transação atualizada",
+                "value": 3600
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transacao atualizada"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir transação",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Transacao excluida"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Id": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "CategoryInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "background": {
+            "type": "string"
+          },
+          "isIncome": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TransactionInput": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "categoryId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
