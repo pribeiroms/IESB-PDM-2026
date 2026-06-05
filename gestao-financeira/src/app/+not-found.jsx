@@ -6,8 +6,8 @@ import { colors } from "../constants/colors";
 export default function NotFoundScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Pagina nao encontrada</Text>
-      <Button onPress={() => router.replace("/")}>Voltar para o inicio</Button>
+      <Text style={styles.title}>Página não encontrada</Text>
+      <Button onPress={() => router.replace("/")}>Voltar para o início</Button>
     </View>
   );
 }

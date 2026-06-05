@@ -23,6 +23,14 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const data = createTransactionSchema.parse(req.body);
+    const category = await prisma.category.findUnique({
+      where: { id: data.categoryId }
+    });
+
+    if (!category) {
+      return res.status(400).json({ error: "Categoria não encontrada" });
+    }
+
     const transaction = await prisma.transaction.create({
       data,
       include: { category: true }
@@ -37,6 +45,17 @@ router.post("/", async (req, res, next) => {
 router.put("/:id", async (req, res, next) => {
   try {
     const data = updateTransactionSchema.parse(req.body);
+
+    if (data.categoryId) {
+      const category = await prisma.category.findUnique({
+        where: { id: data.categoryId }
+      });
+
+      if (!category) {
+        return res.status(400).json({ error: "Categoria não encontrada" });
+      }
+    }
+
     const transaction = await prisma.transaction.update({
       where: { id: req.params.id },
       data,

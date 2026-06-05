@@ -10,6 +10,7 @@ export default function DescriptionInput({ form, setForm, valueInputRef }) {
         returnKeyType="next"
         onChangeText={(text) => setForm({ ...form, description: text })}
         onSubmitEditing={() => valueInputRef.current?.focus()}
+        placeholder="Ex.: mercado, aluguel, salário"
         style={globalStyles.input}
       />
     </View>

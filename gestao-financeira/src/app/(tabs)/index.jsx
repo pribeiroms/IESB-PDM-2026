@@ -2,7 +2,9 @@ import { router } from "expo-router";
 import { useContext, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
+  Platform,
   RefreshControl,
   Text,
   View
@@ -19,7 +21,8 @@ import { globalStyles } from "../../styles/globalStyles";
 
 export default function Transactions() {
   const { logout, user } = useAuth();
-  const { error, loading, refresh, transactions } = useContext(MoneyContext);
+  const { error, loading, refresh, removeTransaction, transactions } =
+    useContext(MoneyContext);
   const [selectedPeriod, setSelectedPeriod] = useState("all");
   const [selectedTransaction, setSelectedTransaction] = useState(null);
 
@@ -31,6 +34,40 @@ export default function Transactions() {
   const handleLogout = () => {
     logout();
     router.replace("/login");
+  };
+
+  const deleteTransaction = async (transaction) => {
+    try {
+      await removeTransaction(transaction.id);
+    } catch (deleteError) {
+      if (Platform.OS === "web") {
+        window.alert(deleteError.message);
+        return;
+      }
+
+      Alert.alert("Erro", deleteError.message);
+    }
+  };
+
+  const confirmDelete = (transaction) => {
+    const message = `Deseja excluir ${transaction.description}?`;
+
+    if (Platform.OS === "web") {
+      if (window.confirm(message)) {
+        deleteTransaction(transaction);
+      }
+
+      return;
+    }
+
+    Alert.alert("Excluir transação", message, [
+      { text: "Cancelar", style: "cancel" },
+      {
+        text: "Excluir",
+        style: "destructive",
+        onPress: () => deleteTransaction(transaction)
+      }
+    ]);
   };
 
   if (loading) {
@@ -60,6 +97,7 @@ export default function Transactions() {
         renderItem={({ item }) => (
           <TransactionItem
             {...item}
+            onDelete={() => confirmDelete(item)}
             onLongPress={() => setSelectedTransaction(item)}
           />
         )}
@@ -71,7 +109,7 @@ export default function Transactions() {
           <View style={styles.header}>
             <View style={styles.welcomeRow}>
               <View>
-                <Text style={styles.welcome}>Ola, {user?.name}</Text>
+                <Text style={styles.welcome}>Olá, {user?.name}</Text>
                 <Text style={globalStyles.secondaryText}>Bem-vindo de volta</Text>
               </View>
               <Text style={styles.logout} onPress={handleLogout}>
@@ -87,7 +125,7 @@ export default function Transactions() {
         }
         ListEmptyComponent={
           <Text style={globalStyles.secondaryText}>
-            Ainda nao ha nenhum item!
+            Ainda não há nenhum item!
           </Text>
         }
         contentContainerStyle={globalStyles.content}

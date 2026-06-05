@@ -1,8 +1,7 @@
-import { Picker } from "@react-native-picker/picker";
 import { useMemo } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { colors } from "../constants/colors";
+import { Text, View } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
+import SelectField from "./SelectField";
 
 function getPeriodKey(date) {
   const transactionDate = new Date(date);
@@ -44,37 +43,26 @@ export default function MonthYearFilter({
 
     return [...uniquePeriods].sort().reverse();
   }, [transactions]);
+  const options = useMemo(
+    () => [
+      { label: "Todos os meses", value: "all" },
+      ...periods.map((period) => ({
+        label: getPeriodLabel(period),
+        value: period
+      }))
+    ],
+    [periods]
+  );
 
   return (
     <View>
-      <Text style={globalStyles.inputLabel}>Periodo</Text>
-      <View style={styles.picker}>
-        <Picker
-          selectedValue={selectedPeriod}
-          onValueChange={(value) => setSelectedPeriod(value)}
-        >
-          <Picker.Item label="Todos os meses" value="all" />
-          {periods.map((period) => (
-            <Picker.Item
-              key={period}
-              label={getPeriodLabel(period)}
-              value={period}
-            />
-          ))}
-        </Picker>
-      </View>
+      <Text style={globalStyles.inputLabel}>Período</Text>
+      <SelectField
+        onChange={setSelectedPeriod}
+        options={options}
+        placeholder="Selecione um período"
+        value={selectedPeriod}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  picker: {
-    justifyContent: "center",
-    height: 44,
-    borderColor: colors.secondaryText,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: colors.primaryContrast,
-    overflow: "hidden"
-  }
-});

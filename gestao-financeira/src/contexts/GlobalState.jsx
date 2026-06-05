@@ -64,6 +64,9 @@ export default function GlobalState({ children }) {
   const removeCategory = useCallback(async (id) => {
     await api.deleteCategory(id);
     setCategories((current) => current.filter((item) => item.id !== id));
+    setTransactions((current) =>
+      current.filter((item) => item.categoryId !== id)
+    );
   }, []);
 
   return (

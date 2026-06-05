@@ -7,15 +7,15 @@ const defaultCategories = [
     name: "income",
     displayName: "Renda",
     icon: "work",
-    background: "#DE9AC3",
+    background: "#B565D9",
     isIncome: true,
     isDefault: true
   },
   {
     name: "food",
-    displayName: "Alimentacao",
+    displayName: "Alimentação",
     icon: "fastfood",
-    background: "#DEA17B",
+    background: "#D96BA8",
     isIncome: false,
     isDefault: true
   },
@@ -23,15 +23,15 @@ const defaultCategories = [
     name: "house",
     displayName: "Casa",
     icon: "home",
-    background: "#E6E088",
+    background: "#8E6AD8",
     isIncome: false,
     isDefault: true
   },
   {
     name: "education",
-    displayName: "Educacao",
+    displayName: "Educação",
     icon: "book",
-    background: "#AB8FBE",
+    background: "#5F6FD6",
     isIncome: false,
     isDefault: true
   },
@@ -39,7 +39,7 @@ const defaultCategories = [
     name: "travel",
     displayName: "Viagens",
     icon: "airplanemode-active",
-    background: "#82C9DE",
+    background: "#2FA7C9",
     isIncome: false,
     isDefault: true
   }
@@ -49,12 +49,18 @@ async function main() {
   for (const category of defaultCategories) {
     await prisma.category.upsert({
       where: { name: category.name },
-      update: {},
+      update: {
+        displayName: category.displayName,
+        icon: category.icon,
+        background: category.background,
+        isIncome: category.isIncome,
+        isDefault: category.isDefault
+      },
       create: category
     });
   }
 
-  console.log("Seed concluido.");
+  console.log("Seed concluído.");
 }
 
 main()

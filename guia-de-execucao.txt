@@ -1,0 +1,99 @@
+## Como rodar o Projeto
+
+### API
+
+```powershell
+cd gestao-financeira-api
+npm install
+copy .env.example .env
+```
+
+Editar o `.env` com os dados do MySQL:
+
+```env
+DATABASE_URL="mysql://USUARIO:SENHA@localhost:3306/gestao_financeira"
+PORT=3000
+```
+
+Criar o banco no MySQL:
+
+```sql
+CREATE DATABASE IF NOT EXISTS gestao_financeira;
+```
+
+Rodar migrations, seed e API:
+
+```powershell
+npx prisma migrate dev
+npm run prisma:seed
+npm run dev
+```
+
+A API roda em:
+
+```text
+http://localhost:3000
+```
+
+### App
+
+Em outro terminal:
+
+```powershell
+cd gestao-financeira
+npm install
+copy .env.example .env
+```
+
+Editar o `.env`:
+
+```env
+EXPO_PUBLIC_API_URL=http://localhost:3000
+```
+
+Para celular físico, usar o IP local do computador:
+
+```env
+EXPO_PUBLIC_API_URL=http://SEU_IP_LOCAL:3000
+```
+
+Rodar:
+
+```powershell
+npm start
+```
+
+Abrir no Expo Go pelo QR Code.
+
+### Login
+
+Use qualquer usuário com pelo menos 2 caracteres e senha com pelo menos 4 caracteres.
+
+Exemplo:
+
+```text
+Usuario: Polly
+Senha: 1234
+```
+
+### Postman
+
+A collection está em:
+
+```text
+gestao-financeira-api/postman/collection.json
+```
+
+Variável:
+
+```text
+baseUrl = http://localhost:3000
+```
+
+---
+
+Observações adicionais:
+
+- Se estiver testando no navegador (Expo Web), o app roda em `http://localhost:8081` (ou a URL que o Expo mostrar).
+- No emulador Android, a API é acessível em `http://10.0.2.2:3000` por padrão; o projeto já trata isso automaticamente.
+- Se for usar Expo no celular, coloque `EXPO_PUBLIC_API_URL` apontando para o IP do seu computador (ex.: `http://192.168.1.10:3000`).

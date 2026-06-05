@@ -1,12 +1,10 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
-  TouchableWithoutFeedback,
   View
 } from "react-native";
 import Button from "../../components/Button";
@@ -46,7 +44,7 @@ export default function AddTransactions() {
 
   const handleAddTransaction = async () => {
     if (!form.description.trim() || form.value <= 0 || !form.categoryId) {
-      Alert.alert("Dados incompletos", "Preencha descricao, valor e categoria.");
+      Alert.alert("Dados incompletos", "Preencha descrição, valor e categoria.");
       return;
     }
 
@@ -60,7 +58,7 @@ export default function AddTransactions() {
       });
 
       setForm({ ...initialForm, categoryId: defaultCategoryId });
-      Alert.alert("Sucesso!", "Transacao adicionada com sucesso!");
+      Alert.alert("Sucesso!", "Transação adicionada com sucesso!");
     } catch (error) {
       Alert.alert("Erro", error.message);
     } finally {
@@ -73,28 +71,29 @@ export default function AddTransactions() {
       style={globalStyles.screenContainer}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView contentContainerStyle={globalStyles.content}>
-          <View style={styles.form}>
-            <DescriptionInput
-              form={form}
-              setForm={setForm}
-              valueInputRef={valueInputRef}
-            />
-            <CurrencyInput
-              form={form}
-              setForm={setForm}
-              valueInputRef={valueInputRef}
-            />
-            <DatePicker form={form} setForm={setForm} />
-            <CategoryPicker form={form} setForm={setForm} />
-          </View>
+      <ScrollView
+        contentContainerStyle={globalStyles.content}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.form}>
+          <DescriptionInput
+            form={form}
+            setForm={setForm}
+            valueInputRef={valueInputRef}
+          />
+          <CurrencyInput
+            form={form}
+            setForm={setForm}
+            valueInputRef={valueInputRef}
+          />
+          <DatePicker form={form} setForm={setForm} />
+          <CategoryPicker form={form} setForm={setForm} />
+        </View>
 
-          <Button onPress={handleAddTransaction} disabled={saving}>
-            {saving ? "Salvando..." : "Adicionar"}
-          </Button>
-        </ScrollView>
-      </TouchableWithoutFeedback>
+        <Button onPress={handleAddTransaction} disabled={saving}>
+          {saving ? "Salvando..." : "Adicionar"}
+        </Button>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }

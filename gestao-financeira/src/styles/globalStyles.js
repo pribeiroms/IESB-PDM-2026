@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { colors } from "../constants/colors";
 
 export const globalStyles = StyleSheet.create({
@@ -18,13 +18,20 @@ export const globalStyles = StyleSheet.create({
     paddingHorizontal: 20
   },
   input: {
+    backgroundColor: colors.primaryContrast,
+    borderColor: colors.secondaryText,
+    borderRadius: 8,
+    borderWidth: 1,
+    color: colors.primaryText,
+    flexGrow: 1,
+    fontSize: 16,
     height: 40,
     paddingHorizontal: 16,
-    borderColor: colors.secondaryText,
-    borderWidth: 1,
-    borderRadius: 8,
-    flexGrow: 1,
-    backgroundColor: colors.primaryContrast
+    ...Platform.select({
+      web: {
+        outlineStyle: "none"
+      }
+    })
   },
   inputLabel: {
     fontSize: 16,

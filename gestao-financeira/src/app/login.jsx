@@ -16,14 +16,22 @@ import { globalStyles } from "../styles/globalStyles";
 
 export default function Login() {
   const { login } = useAuth();
-  const [form, setForm] = useState({ name: "", password: "" });
+  const [form, setForm] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    setErrorMessage("");
     try {
-      login(form);
+      setLoading(true);
+      await login(form);
       router.replace("/");
     } catch (error) {
-      Alert.alert("Acesso negado", error.message);
+      const message = error?.message ?? "Erro ao fazer login.";
+      setErrorMessage(message);
+      Alert.alert("Acesso negado", message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -34,18 +42,21 @@ export default function Login() {
     >
       <View style={styles.content}>
         <View>
-          <Text style={styles.title}>Gestao Financeira</Text>
+          <Text style={styles.title}>Gestão Financeira</Text>
           <Text style={globalStyles.secondaryText}>Acesse sua conta</Text>
         </View>
 
         <View>
-          <Text style={globalStyles.inputLabel}>Usuario</Text>
+          <Text style={globalStyles.inputLabel}>Usuário</Text>
           <TextInput
-            autoCapitalize="words"
-            onChangeText={(name) => setForm((current) => ({ ...current, name }))}
-            placeholder="Seu usuario"
+            autoCapitalize="none"
+            onChangeText={(username) =>
+              setForm((current) => ({ ...current, username }))
+            }
+            placeholder="admin"
+            placeholderTextColor={colors.inactive}
             style={globalStyles.input}
-            value={form.name}
+            value={form.username}
           />
         </View>
 
@@ -55,14 +66,20 @@ export default function Login() {
             onChangeText={(password) =>
               setForm((current) => ({ ...current, password }))
             }
-            placeholder="Senha"
+            placeholder="123456"
+            placeholderTextColor={colors.inactive}
             secureTextEntry
             style={globalStyles.input}
             value={form.password}
           />
         </View>
 
-        <Button onPress={handleLogin}>Entrar</Button>
+        <Button onPress={handleLogin} disabled={loading}>
+          {loading ? "Entrando..." : "Entrar"}
+        </Button>
+        {errorMessage ? (
+          <Text style={styles.errorText}>{errorMessage}</Text>
+        ) : null}
       </View>
     </KeyboardAvoidingView>
   );
@@ -82,5 +99,10 @@ const styles = StyleSheet.create({
     color: colors.primaryText,
     fontSize: 28,
     fontWeight: "800"
+  },
+  errorText: {
+    color: colors.negativeText,
+    marginTop: 12,
+    fontSize: 14
   }
 });

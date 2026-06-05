@@ -1,10 +1,10 @@
 export const customCategoryPalette = [
-  "#7DB7A8",
-  "#D08C60",
-  "#7F9FD3",
-  "#C786B8",
-  "#9FA85C",
-  "#C36B7D"
+  "#B565D9",
+  "#D96BA8",
+  "#8E6AD8",
+  "#5F6FD6",
+  "#2FA7C9",
+  "#C85F8E"
 ];
 
 export function getCategoryConfig(category) {

@@ -4,11 +4,11 @@ export function errorHandler(err, req, res, next) {
   if (err.name === "ZodError") {
     return res
       .status(400)
-      .json({ error: "Dados invalidos", details: err.issues });
+      .json({ error: "Dados inválidos", details: err.issues });
   }
 
   if (err.code === "P2025") {
-    return res.status(404).json({ error: "Recurso nao encontrado" });
+    return res.status(404).json({ error: "Recurso não encontrado" });
   }
 
   if (err.code === "P2002") {
@@ -16,9 +16,9 @@ export function errorHandler(err, req, res, next) {
   }
 
   if (err.code === "P2003") {
-    return res.status(400).json({
-      error: "Nao e possivel excluir um registro usado por transacoes"
-    });
+    return res
+      .status(400)
+      .json({ error: "Registro relacionado não encontrado ou em uso" });
   }
 
   return res.status(500).json({ error: "Erro interno do servidor" });

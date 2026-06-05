@@ -51,16 +51,22 @@ router.delete("/:id", async (req, res, next) => {
     });
 
     if (!existing) {
-      return res.status(404).json({ error: "Categoria nao encontrada" });
+      return res.status(404).json({ error: "Categoria não encontrada" });
     }
 
     if (existing.isDefault) {
       return res
         .status(400)
-        .json({ error: "Categorias padrao nao podem ser excluidas" });
+        .json({ error: "Categorias padrão não podem ser excluídas" });
     }
 
-    await prisma.category.delete({ where: { id: req.params.id } });
+    await prisma.$transaction([
+      prisma.transaction.deleteMany({
+        where: { categoryId: req.params.id }
+      }),
+      prisma.category.delete({ where: { id: req.params.id } })
+    ]);
+
     return res.status(204).send();
   } catch (error) {
     next(error);

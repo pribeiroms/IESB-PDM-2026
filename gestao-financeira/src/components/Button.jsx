@@ -1,16 +1,16 @@
-import { StyleSheet, Text, TouchableHighlight } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { colors } from "../constants/colors";
 
 export default function Button({ children, disabled, onPress }) {
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       style={[styles.background, disabled && styles.disabled]}
       disabled={disabled}
       onPress={onPress}
-      underlayColor={colors.positiveText}
+      activeOpacity={0.8}
     >
       <Text style={styles.text}>{children}</Text>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 }
 
@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
   },
   disabled: {
     opacity: 0.6
+  },
+  pressed: {
+    opacity: 0.8
   },
   text: {
     color: colors.primaryContrast,

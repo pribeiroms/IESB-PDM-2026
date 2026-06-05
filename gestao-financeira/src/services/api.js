@@ -1,4 +1,9 @@
-const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3000";
+import { Platform } from "react-native";
+
+const BASE_URL =
+  Platform.OS === "web"
+    ? "http://localhost:3000"
+    : process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3000";
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {
@@ -8,13 +13,23 @@ async function request(path, options = {}) {
 
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`HTTP ${response.status}: ${text}`);
+    let data = null;
+
+    try {
+      data = JSON.parse(text);
+    } catch {
+      data = null;
+    }
+
+    throw new Error(data?.error ?? `HTTP ${response.status}: ${text}`);
   }
 
   return response.status === 204 ? null : response.json();
 }
 
 export const api = {
+  login: (data) =>
+    request("/auth/login", { method: "POST", body: JSON.stringify(data) }),
   listCategories: () => request("/categories"),
   createCategory: (data) =>
     request("/categories", { method: "POST", body: JSON.stringify(data) }),

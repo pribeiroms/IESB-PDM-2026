@@ -1,9 +1,27 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
+import { useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors } from "../../constants/colors";
+import { useAuth } from "../../contexts/AuthState";
 
 export default function TabsLayout() {
+  const { isAuthenticated, isRestoring } = useAuth();
+
+  useEffect(() => {
+    if (!isRestoring && !isAuthenticated) {
+      const timeout = setTimeout(() => {
+        router.replace("/login");
+      }, 0);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isAuthenticated, isRestoring]);
+
+  if (isRestoring || !isAuthenticated) {
+    return null;
+  }
+
   return (
     <Tabs
       screenOptions={{

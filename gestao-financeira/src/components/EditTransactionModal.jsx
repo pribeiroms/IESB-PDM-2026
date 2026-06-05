@@ -36,7 +36,7 @@ export default function EditTransactionModal({ onClose, selectedTransaction }) {
 
   const saveTransaction = async () => {
     if (!form.description.trim() || form.value <= 0 || !form.categoryId) {
-      Alert.alert("Dados incompletos", "Preencha descricao, valor e categoria.");
+      Alert.alert("Dados incompletos", "Preencha descrição, valor e categoria.");
       return;
     }
 
@@ -49,7 +49,7 @@ export default function EditTransactionModal({ onClose, selectedTransaction }) {
         categoryId: form.categoryId
       });
       onClose();
-      Alert.alert("Sucesso!", "Transacao atualizada com sucesso!");
+      Alert.alert("Sucesso!", "Transação atualizada com sucesso!");
     } catch (error) {
       Alert.alert("Erro", error.message);
     } finally {
@@ -62,7 +62,7 @@ export default function EditTransactionModal({ onClose, selectedTransaction }) {
       setSaving(true);
       await removeTransaction(selectedTransaction.id);
       onClose();
-      Alert.alert("Sucesso!", "Transacao excluida com sucesso!");
+      Alert.alert("Sucesso!", "Transação excluída com sucesso!");
     } catch (error) {
       Alert.alert("Erro", error.message);
     } finally {
@@ -84,7 +84,7 @@ export default function EditTransactionModal({ onClose, selectedTransaction }) {
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <View style={styles.header}>
-            <Text style={styles.title}>Editar transacao</Text>
+            <Text style={styles.title}>Editar transação</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <Text style={styles.closeText}>X</Text>
             </TouchableOpacity>
@@ -112,7 +112,7 @@ export default function EditTransactionModal({ onClose, selectedTransaction }) {
               onPress={deleteTransaction}
               style={[styles.deleteButton, saving && styles.disabled]}
             >
-              <Text style={styles.deleteText}>Excluir transacao</Text>
+              <Text style={styles.deleteText}>Excluir transação</Text>
             </TouchableOpacity>
           </ScrollView>
         </View>
